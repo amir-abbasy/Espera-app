@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "814649526351",
+    "project_id": "espera-66e5e",
+    "storage_bucket": "espera-66e5e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814649526351:android:9467a5b9c874207de1823a",
+        "android_client_info": {
+          "package_name": "com.espera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "814649526351-k2r9pirk1rmtc0q6f3486qpg38daiopo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAS5DKRokwfKAexuSR9aj_7jMqF8DUaxfc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "814649526351-k2r9pirk1rmtc0q6f3486qpg38daiopo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

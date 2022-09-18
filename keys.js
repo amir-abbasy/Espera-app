@@ -1,0 +1,9 @@
+export const STRIPE_PUBLISHABLE_KEY = "pk_test_51H2711DqIVpJBt3RNYIncduJKSJPxTwEYygd4qrZYO34egsxttr06XhTnbZV37mXlAQFqNt2bSvvW2Rvemdn95d3006HwkMWBM";
+export const Secret_key = "sk_test_51H2711DqIVpJBt3RVyG0gp9PB5qtU4joHwdPFhySD3UbtLelO73KEwqTtOKbrUvA81p09BYHW9UEI9TP6GMp8xXr00kFybsnV9"
+
+// stripe key 
+// public 
+// pk_test_51H2711DqIVpJBt3RNYIncduJKSJPxTwEYygd4qrZYO34egsxttr06XhTnbZV37mXlAQFqNt2bSvvW2Rvemdn95d3006HwkMWBM
+
+// private
+// sk_test_51H2711DqIVpJBt3RVyG0gp9PB5qtU4joHwdPFhySD3UbtLelO73KEwqTtOKbrUvA81p09BYHW9UEI9TP6GMp8xXr00kFybsnV9

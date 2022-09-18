@@ -1,0 +1,10 @@
+{
+  "AED": {"name": "United Arab Emirates Dirham", "price": 3.6725},
+  "USD": {"name": "United States Dollar", "price": 1.0},
+  "BHD": {"name": "Bahraini Dinar", "price": 0.376},
+  "INR": {"name": "Indian Rupee", "price": 79.726353},
+  "KWD": {"name": "Kuwaiti Dinar", "price": 0.30803463},
+  "OMR": {"name": "Omani Rial", "price": 0.3845},
+  "SAR": {"name": "Saudi Riyal", "price": 3.75},
+  "QAR": {"name": "Qatari Rial", "price": 3.64}
+}
