@@ -1,11 +1,21 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  Button,
+  TouchableOpacity,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
 import {Header} from '../../components';
 import service from '../../global/service';
 import currencies from '../../global/currencies.json';
-import {getStore, storeData} from '../../global/util';
+import {getStore, storeData, storeRemoveData} from '../../global/util';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {fonts} from '../../global/constanants';
+import {default_url, fonts} from '../../global/constanants';
+import { useNavigation } from '@react-navigation/native';
 
 // https://free.currconv.com/api/v7/convert?q=USD_QAR&compact=ultra&apiKey=c51953d4f4608a064655
 
@@ -17,17 +27,21 @@ export default function Settings() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState();
+  const [loading, setLoading] = useState(false);
+  const nav = useNavigation()
 
   async function getProfile() {
     var curr_ = Object.entries(currencies).map(__ => ({
       label: __[0] + ' - ' + __[1].name,
-      value: {currency:__[0], value: __[1].price},
+      value: {currency: __[0], value: __[1].price},
     }));
     setItems(curr_);
 
     var active_curr = JSON.parse(await getStore('@currency'));
+    var user = JSON.parse(await getStore('@user'));
 
-    setProfile(active_curr);
+    // setProfile({'currency':active_curr, userId});
+    setProfile({...active_curr, ...user});
 
     // service.get(
     //   // 'https://free.currconv.com/api/v7/currencies?apiKey=c51953d4f4608a064655',
@@ -63,6 +77,32 @@ export default function Settings() {
   useEffect(() => {
     getProfile();
   }, []);
+
+  function _deleteMyAccount() {
+    if(!profile?.userId){
+      alert("something went wrong!, try later")
+      return
+    }
+    setLoading(true);
+
+    const body = {user_id: profile?.userId}
+    service.delete(default_url + '/user/deleteUser', body, (status, res) => {
+      console.log('res-----', status, res);
+      if (status == 200) {
+        // if (res.status) {
+        storeRemoveData('@user');
+        // Alert.alert('Account Deleted');
+        nav.navigate('Login');
+
+        // } else seterr(res.error);
+        setLoading(false);
+      } else {
+        Alert.alert('Network err!');
+      }
+    });
+
+  }
+  
 
   return (
     <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>
@@ -103,6 +143,16 @@ export default function Settings() {
           }}
         />
       )}
+
+      <Text style={{color: '#000', margin: 22, marginBottom: 0}}>
+        Delete my account
+      </Text>
+
+      <TouchableOpacity
+      onPress={()=> _deleteMyAccount()}
+        style={styles.deleteButton}>
+        {loading ? <ActivityIndicator color='tomato'/> :  <Text style={{color: 'tomato'}}>Delete</Text>}
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -111,4 +161,11 @@ const styles = StyleSheet.create({
   root: {
     padding: 5,
   },
+  deleteButton: {
+    borderWidth: 1,
+    borderColor: 'tomato',
+    margin: 22,
+    padding: 10,
+    alignSelf: 'flex-start',
+  }
 });

@@ -117,15 +117,15 @@ export default function Register({navigation}) {
     });
   }
 
-  function _isUserExists(_name) {
+  function _isUserExists(_email) {
     setLoading(true);
-    service.get(default_url + '/user/isUserExists/' + _name, (status, res) => {
+    service.get(default_url + '/user/isUserExists/' + _email, (status, res) => {
       console.log(status, res);
       if (res.status == true) {
         if (res.isUserExists) {
-          seterr('Username already exist')
+          seterr('Email already exist')
         }else {
-          setUsename(_name);
+          setEmail(_email);
           seterr()
         }
         setLoading(false);
@@ -169,7 +169,7 @@ export default function Register({navigation}) {
               style={styles.TextInput}
               placeholder="Username"
               placeholderTextColor="#444444"
-              onChangeText={val => _isUserExists(val)}
+              onChangeText={val => setUsename(val)}
             />
           </View>
           <View style={styles.inputView}>
@@ -204,7 +204,9 @@ export default function Register({navigation}) {
               placeholder="Email"
               placeholderTextColor="#444444"
               // secureTextEntry={true}
-              onChangeText={val => setEmail(val)}
+              // onChangeText={val => setEmail(val)}
+              onChangeText={val => _isUserExists(val)}
+
             />
           </View>
           <View style={styles.inputView}>

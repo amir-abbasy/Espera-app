@@ -4,7 +4,7 @@
  import React from 'react';
  import {AppRegistry} from 'react-native';
  import messaging from '@react-native-firebase/messaging';
- // import firebase from '@react-native-firebase/app';
+ import firebase from '@react-native-firebase/app';
  import App from './App';
  import {name as appName} from './app.json';
  import { useEffect } from 'react';
@@ -17,7 +17,7 @@
  // messaging()
  //   .subscribeToTopic('coupen')
  //   .then(() => console.log('Subscribed to topic!'));
- 
+
  const App_ = () => {
    const TOPIC = 'coupen';
  
@@ -143,5 +143,6 @@
    return <App/>
  };
  
- AppRegistry.registerComponent(appName, () => App_);
+//  AppRegistry.registerComponent(appName, () => App_);
+ AppRegistry.registerComponent(appName, () => App);
  

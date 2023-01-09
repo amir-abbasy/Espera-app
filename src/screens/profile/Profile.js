@@ -53,11 +53,11 @@ const ListItem = props => {
         paddingVertical: 10,
         marginHorizontal: 10,
         marginBottom: 10,
+        backgroundColor: '#0f0fff15',
         //   Shadow
-        backgroundColor: '#fff',
-        elevation: 10,
-        shadowOpacity: 1,
-        shadowColor: '#444444',
+        // elevation: 10,
+        // shadowOpacity: 1,
+        // shadowColor: '#444444',
       }}>
       <Text style={{...fonts.reg_font}}>{props.item.name}</Text>
       <MaterialIcons
