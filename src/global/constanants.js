@@ -1,10 +1,10 @@
 // export const default_url = "https://coupen.herokuapp.com";
 
 // live
-// export const default_url = "http://54.152.5.122:4000";
+export const default_url = "http://54.152.5.122:4000";
 
 // localhost
-export const default_url = "http://192.168.0.107:4000";
+// export const default_url = "http://192.168.0.107:4000";
 
 
 
