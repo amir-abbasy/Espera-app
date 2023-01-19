@@ -3,7 +3,7 @@
  */
  import React from 'react';
  import {AppRegistry} from 'react-native';
- import messaging from '@react-native-firebase/messaging';
+//  import messaging from '@react-native-firebase/messaging';
  // import firebase from '@react-native-firebase/app';
  import App from './App';
  import {name as appName} from './app.json';
@@ -27,19 +27,19 @@
       * the current application before messages can be
       * received or sent
       */
-     const authStatus = await messaging().requestPermission({
-       alert: true,
-       announcement: false,
-       badge: true,
-       carPlay: false,
-       provisional: false,
-       sound: true,
-     });
-     console.log('Authorization status(authStatus):', authStatus);
-     return (
-       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-       authStatus === messaging.AuthorizationStatus.PROVISIONAL
-     );
+    //  const authStatus = await messaging().requestPermission({
+    //    alert: true,
+    //    announcement: false,
+    //    badge: true,
+    //    carPlay: false,
+    //    provisional: false,
+    //    sound: true,
+    //  });
+    //  console.log('Authorization status(authStatus):', authStatus);
+    //  return (
+    //    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    //    authStatus === messaging.AuthorizationStatus.PROVISIONAL
+    //  );
    };
  
    useEffect(() => {
@@ -61,21 +61,21 @@
       * `RemoteMessage` containing the notification data, or
       * `null` if the app was opened via another method.
       */
-     messaging()
-       .getInitialNotification()
-       .then(async remoteMessage => {
-         if (remoteMessage) {
-           console.log(
-             'getInitialNotification:' +
-               'Notification caused app to open from quit state',
-           );
-           console.log(remoteMessage);
-         //   alert(
-         //     'getInitialNotification: Notification caused app to' +
-         //       ' open from quit state',
-         //   );
-         }
-       });
+    //  messaging()
+    //    .getInitialNotification()
+    //    .then(async remoteMessage => {
+    //      if (remoteMessage) {
+    //        console.log(
+    //          'getInitialNotification:' +
+    //            'Notification caused app to open from quit state',
+    //        );
+    //        console.log(remoteMessage);
+    //      //   alert(
+    //      //     'getInitialNotification: Notification caused app to' +
+    //      //       ' open from quit state',
+    //      //   );
+    //      }
+    //    });
  
      /**
       * When the user presses a notification displayed via FCM,
@@ -84,19 +84,19 @@
       * how to watch for when a notification opens the app from
       * a quit state.
       */
-     messaging().onNotificationOpenedApp(async remoteMessage => {
-       if (remoteMessage) {
-         console.log(
-           'onNotificationOpenedApp: ' +
-             'Notification caused app to open from background state',
-         );
-         console.log(remoteMessage);
-         // alert(
-         //   'onNotificationOpenedApp: Notification caused app to' +
-         //     ' open from background state',
-         // );
-       }
-     });
+    //  messaging().onNotificationOpenedApp(async remoteMessage => {
+    //    if (remoteMessage) {
+    //      console.log(
+    //        'onNotificationOpenedApp: ' +
+    //          'Notification caused app to open from background state',
+    //      );
+    //      console.log(remoteMessage);
+    //      // alert(
+    //      //   'onNotificationOpenedApp: Notification caused app to' +
+    //      //     ' open from background state',
+    //      // );
+    //    }
+    //  });
  
      /**
       * Set a message handler function which is called when
@@ -106,30 +106,30 @@
       * local storage, or sending a network request.
       */
  
-     messaging().setBackgroundMessageHandler(async remoteMessage => {
-       console.log('Message handled in the background!', remoteMessage);
-     });
+    //  messaging().setBackgroundMessageHandler(async remoteMessage => {
+    //    console.log('Message handled in the background!', remoteMessage);
+    //  });
  
      /**
       * When any FCM payload is received, the listener callback
       * is called with a `RemoteMessage`. Returns an unsubscribe
       * function to stop listening for new messages.
       */
-     const unsubscribe = messaging().onMessage(async remoteMessage => {
-       alert('A new FCM message arrived!');
-       console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
-     });
+    //  const unsubscribe = messaging().onMessage(async remoteMessage => {
+    //    alert('A new FCM message arrived!');
+    //    console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    //  });
  
      /**
       * Apps can subscribe to a topic, which allows the FCM
       * server to send targeted messages to only those devices
       * subscribed to that topic.
       */
-     messaging()
-       .subscribeToTopic(TOPIC)
-       .then(() => {
-         console.log(`Topic: ${TOPIC} Suscribed`);
-       });
+    //  messaging()
+    //    .subscribeToTopic(TOPIC)
+    //    .then(() => {
+    //      console.log(`Topic: ${TOPIC} Suscribed`);
+    //    });
  
      return () => {
        unsubscribe;
