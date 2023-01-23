@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -45,7 +45,7 @@ export default function Login({navigation}) {
     service.post(default_url + '/user/login', body, (status, res) => {
       console.log('res-----', res);
         if (status == 200) {
-        if (res != 'no user font' && res != "password don't match") {
+        if (res != 'no user found!' && res != "password don't match") {
           storeData('@user', {user: res[0].username, userId: res[0].user_id});
           storeData('@currency', {currency: iso, value: 1.0});
           navigation.navigate('Main');
@@ -56,8 +56,6 @@ export default function Login({navigation}) {
       }
     });
   };
-
-
 
   return (
     <SafeAreaView style={styles.container}>
