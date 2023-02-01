@@ -18,7 +18,11 @@
  //   .subscribeToTopic('coupen')
  //   .then(() => console.log('Subscribed to topic!'));
  
- const App_ = () => {
+ const App_ = ()=>{
+  return <App/>
+ }
+
+  const App__ = () => {
    const TOPIC = 'coupen';
  
    const requestUserPermission = async () => {

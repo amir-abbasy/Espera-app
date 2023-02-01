@@ -9,11 +9,14 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
+  Linking,
 } from 'react-native';
 import service from '../../global/service';
 import {default_url, colors, fonts} from '../../global/constanants';
 import {storeData} from '../../global/util';
 import {useNavigation} from '@react-navigation/native';
+import TandC from '../TandC';
+import {Modal} from '../../components';
 
 export default function Register({navigation}) {
   const [refId, setRefId] = useState({
@@ -28,51 +31,52 @@ export default function Register({navigation}) {
   const [phone, setPhone] = useState('');
   const [err, seterr] = useState('');
   const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(true);
 
   const nav = useNavigation();
   console.log(refId);
 
   const submit = () => {
     var err = false;
-    seterr('')
+    seterr('');
 
-    if (refId.staff == null || refId.staff == '' ) {
+    if (refId.staff == null || refId.staff == '') {
       seterr(`Enter referrel id`);
       err = true;
-      return 
+      return;
     }
 
     if (username.length < 1) {
       seterr(`Enter Username`);
       err = true;
-      return 
+      return;
     }
     if (fullname.length < 1) {
       seterr(`Enter Fullname`);
       err = true;
-      return 
+      return;
     }
     if (phone.length < 1) {
       seterr(`Enter Phone Number`);
       err = true;
-      return 
+      return;
     }
     if (email.length < 1) {
       seterr(`Enter email`);
       err = true;
-      return 
+      return;
     }
 
     if (password.length < 6) {
       seterr(`Password must be 6 characters or more`);
       err = true;
-      return 
+      return;
     }
 
     if (password != confirmPassword) {
       seterr(`Password doe's not match`);
       err = true;
-      return 
+      return;
     }
 
     if (!err) _register();
@@ -111,7 +115,7 @@ export default function Register({navigation}) {
         if (res.length > 0) setRefId({isValid: true, staff: res[0]});
         else setRefId({isValid: false, staff: null});
         setLoading(false);
-        seterr('')
+        seterr('');
       }
       setLoading(false);
     });
@@ -123,10 +127,10 @@ export default function Register({navigation}) {
       console.log(status, res);
       if (res.status == true) {
         if (res.isUserExists) {
-          seterr('Email already exist')
-        }else {
+          seterr('Email already exist');
+        } else {
           setEmail(_email);
-          seterr()
+          seterr();
         }
         setLoading(false);
       }
@@ -206,7 +210,6 @@ export default function Register({navigation}) {
               // secureTextEntry={true}
               // onChangeText={val => setEmail(val)}
               onChangeText={val => _isUserExists(val)}
-
             />
           </View>
           <View style={styles.inputView}>
@@ -235,6 +238,38 @@ export default function Register({navigation}) {
         onPress={() => nav.navigate('Login')}>
         <Text style={styles.forgot_button}>Already have an account?</Text>
       </TouchableOpacity>
+
+      {/* TERMS & CONDITIONS */}
+      <Modal
+        modalVisible={modalVisible}
+        setModalVisible={() => nav.navigate('Login')}
+        footer={
+          <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+            <TouchableOpacity
+              style={styles.buttonModal}
+              onPress={async () => {
+                await Linking.openURL(
+                  'https://doc-hosting.flycricket.io/espera-terms-of-use/332b0563-2bed-4793-a08d-3c3e4ebcc21e/terms',
+                );
+              }}>
+              <Text style={{color: 'blue'}}>Download</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonModal}
+              onPress={() => nav.navigate('Login')}>
+              <Text style={{color: 'blue'}}>Decline</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(false);
+              }}
+              style={[styles.buttonModal, {backgroundColor: 'blue'}]}>
+              <Text style={{color: '#fff'}}>Accept</Text>
+            </TouchableOpacity>
+          </View>
+        }>
+        <TandC />
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -279,7 +314,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.primary,
   },
-  loginText:{
-    color: '#fff'
-  }
+  loginText: {
+    color: '#fff',
+  },
+  buttonModal: {
+    width: '30%',
+    borderRadius: 25,
+    borderColor: 'blue',
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 20,
+    padding: 10,
+  },
 });
