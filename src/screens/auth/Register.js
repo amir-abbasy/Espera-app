@@ -34,45 +34,45 @@ export default function Register({navigation}) {
 
   const submit = () => {
     var err = false;
-    seterr('')
+    seterr('');
 
-    if (refId.staff == null || refId.staff == '' ) {
+    if (refId.staff == null || refId.staff == '') {
       seterr(`Enter referrel id`);
       err = true;
-      return 
+      return;
     }
 
     if (username.length < 1) {
       seterr(`Enter Username`);
       err = true;
-      return 
+      return;
     }
     if (fullname.length < 1) {
       seterr(`Enter Fullname`);
       err = true;
-      return 
+      return;
     }
     if (phone.length < 1) {
       seterr(`Enter Phone Number`);
       err = true;
-      return 
+      return;
     }
     if (email.length < 1) {
       seterr(`Enter email`);
       err = true;
-      return 
+      return;
     }
 
     if (password.length < 6) {
       seterr(`Password must be 6 characters or more`);
       err = true;
-      return 
+      return;
     }
 
     if (password != confirmPassword) {
       seterr(`Password doe's not match`);
       err = true;
-      return 
+      return;
     }
 
     if (!err) _register();
@@ -111,22 +111,22 @@ export default function Register({navigation}) {
         if (res.length > 0) setRefId({isValid: true, staff: res[0]});
         else setRefId({isValid: false, staff: null});
         setLoading(false);
-        seterr('')
+        seterr('');
       }
       setLoading(false);
     });
   }
 
-  function _isUserExists(_name) {
+  function _isUserExists(_email) {
     setLoading(true);
-    service.get(default_url + '/user/isUserExists/' + _name, (status, res) => {
+    service.get(default_url + '/user/isUserExists/' + _email, (status, res) => {
       console.log(status, res);
       if (res.status == true) {
         if (res.isUserExists) {
-          seterr('Username already exist')
-        }else {
-          setUsename(_name);
-          seterr()
+          seterr('Email already exist');
+        } else {
+          setEmail(_email);
+          seterr();
         }
         setLoading(false);
       }
@@ -169,7 +169,7 @@ export default function Register({navigation}) {
               style={styles.TextInput}
               placeholder="Username"
               placeholderTextColor="#444444"
-              onChangeText={val => _isUserExists(val)}
+              onChangeText={val => setUsename(val)}
             />
           </View>
           <View style={styles.inputView}>
@@ -204,7 +204,8 @@ export default function Register({navigation}) {
               placeholder="Email"
               placeholderTextColor="#444444"
               // secureTextEntry={true}
-              onChangeText={val => setEmail(val)}
+              // onChangeText={val => setEmail(val)}
+              onChangeText={val => _isUserExists(val)}
             />
           </View>
           <View style={styles.inputView}>
@@ -277,7 +278,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.primary,
   },
-  loginText:{
-    color: '#fff'
-  }
+  loginText: {
+    color: '#fff',
+  },
 });

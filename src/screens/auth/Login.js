@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -38,14 +38,14 @@ export default function Login({navigation}) {
   };
 
   const _login = () => {
-    var iso = "USD";
+    var iso = 'USD';
     setLoading(true);
-    seterr()
+    seterr();
     const body = {username: email, user_password: password};
     service.post(default_url + '/user/login', body, (status, res) => {
       console.log('res-----', res);
-        if (status == 200) {
-        if (res != 'no user font' && res != "password don't match") {
+      if (status == 200) {
+        if (res != 'no user found!' && res != "password don't match") {
           storeData('@user', {user: res[0].username, userId: res[0].user_id});
           storeData('@currency', {currency: iso, value: 1.0});
           navigation.navigate('Main');
@@ -56,8 +56,6 @@ export default function Login({navigation}) {
       }
     });
   };
-
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -88,7 +86,16 @@ export default function Login({navigation}) {
           onChangeText={password => setPassword(password)}
         />
       </View>
-     {err &&  <Text style={{color: 'white', backgroundColor: 'tomato', paddingHorizontal: 5}}>{err}</Text>}
+      {err && (
+        <Text
+          style={{
+            color: 'white',
+            backgroundColor: 'tomato',
+            paddingHorizontal: 5,
+          }}>
+          {err}
+        </Text>
+      )}
       {/* 
             <TouchableOpacity>
                 <Text style={styles.forgot_button}>Forgot Password?</Text>
@@ -118,7 +125,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.primary,
-
   },
 
   image: {
@@ -135,7 +141,6 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 15,
     alignItems: 'center',
-    
   },
 
   TextInput: {
@@ -159,9 +164,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // backgroundColor: colors.primary,
     backgroundColor: '#000',
-
   },
-  loginText:{
-    color: '#fff'
-  }
+  loginText: {
+    color: '#fff',
+  },
 });
