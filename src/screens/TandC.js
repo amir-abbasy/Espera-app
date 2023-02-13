@@ -8,9 +8,42 @@ const TandC = () => {
     <>
       <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>
         {/* <Header homeHeader={false} title="How It Works" /> */}
-
         <ScrollView contentContainerStyle={styles.container}>
           <Text style={styles.title}>Terms & Conditions</Text>
+          <Text style={styles.title}>
+            Apple is not a sponsor nor is involved in any of Espera e-shop
+            activities.
+          </Text>
+
+          <Text>
+            * All our complementary coupons awarded with the purchase are system
+            generated, user cannot choose the coupon number as this generated
+            upon completing the purchase by our system automatically.
+          </Text>
+          <Text>
+            {'\n'}* Campaign draws will take place as per the mentioned date for
+            each campaign or when the campaign sold out, whichever earlier
+            subject to the availability of the regulatory representative.
+          </Text>
+          <Text>
+            {'\n'}* The max draw date of any draw campaign is indicated on each
+            draw campaign, Winner will be announced on the draw date itself.
+            <Text>
+              {'\n\n'}* Winners are responsible for any and all tax liability
+              where applicable.
+            </Text>
+          </Text>
+          <Text>
+            {'\n'}* We will not be responsible for claims, damages, or expenses
+            of any nature whatsoever for any loss, illness, bodily injury,
+            including death, of or to any Winner and/or any third party during
+            and/or in course of usage of any Prize or due to any defects in any
+            Prize.
+          </Text>
+          <Text>
+            {'\n'}* Espera e-shop reserve the right to bring forward the draw
+            date indicated on draw campaign at any time.
+          </Text>
           <Text style={styles.p}>
             {`By downloading or using the app, these terms will automatically apply to you – you should make sure therefore that you read them carefully before using the app. You’re not allowed to copy or modify the app, any part of the app, or our trademarks in any way. You’re not allowed to attempt to extract the source code of the app, and you also shouldn’t try to translate the app into other languages or make derivative versions. The app itself, and all the trademarks, copyright, database rights, and other intellectual property rights related to it, still belong to Espera.`}
           </Text>
@@ -39,7 +72,7 @@ const TandC = () => {
           <Text
             style={
               styles.p
-            }>{`We may update our Terms and Conditions from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Terms and Conditions on this page.These terms and conditions are effective as of 2023-02-01`}</Text>
+            }>{`We may update our Terms and Conditions from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Terms and Conditions on this page.These terms and conditions are effective as of ${new Date().toLocaleDateString()}`}</Text>
 
           <Text style={styles.title}>Contact Us</Text>
           <Text
@@ -58,7 +91,7 @@ const styles = StyleSheet.create({
   title: {marginVertical: 20, color: '#000'},
   container: {
     padding: 22,
-    paddingBottom: 100
+    paddingBottom: 100,
   },
   p: {textAlign: 'justify', fontSize: 12, marginTop: 10},
 });

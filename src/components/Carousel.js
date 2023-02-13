@@ -11,7 +11,7 @@ import LinearGradient from 'react-native-linear-gradient';
 const { width, height } = Dimensions.get('screen');
 import { colors, default_url, fonts } from '../global/constanants'
 
-const RenderItem = ({ item }) => {
+const RenderItem = ({ item, index }) => {
   const progress_bg_Colors = [colors.primary, '#221f4d'];
   return (
     <LinearGradient
@@ -40,7 +40,6 @@ const RenderItem = ({ item }) => {
         <Text style={{...fonts.reg_font, fontSize: 12, color: '#fff' }} numberOfLines={3}>
           {item.con_discription}
         </Text>
-
       </View>
 
       <LinearGradient

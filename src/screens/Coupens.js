@@ -35,7 +35,7 @@ export default function Coupens() {
   }
 
   return (
-    <>
+    <ScrollView>
       <SafeAreaView style={{ backgroundColor: '#fff', flex: 1 }}>
         <Header homeHeader={false} title="My Coupens" />
         {!myCoupens ? <Text style={{ textAlign: 'center', color: '#000' }}>No items</Text> :
@@ -54,6 +54,6 @@ export default function Coupens() {
         }
 
       </SafeAreaView>
-    </>
+    </ScrollView>
   );
 }

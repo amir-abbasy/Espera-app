@@ -1,4 +1,4 @@
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {colors} from '../global/constanants';
 import {Header} from '../components';
@@ -19,9 +19,14 @@ import {Header} from '../components';
 
 const HowItWorks = () => {
   return (
-    <>
+    <ScrollView>
       <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>
         <Header homeHeader={false} title="How It Works" />
+
+        <Text style={{fontSize:14, fontWeight:'bold', padding: 20}}>
+        User Agreement & Draw terms{'\n\n'}
+Apple is not a sponsor nor is involved in any of Espera e-shop activities.
+        </Text>
 
         <View
           style={{padding: 20, justifyContent: 'center', alignItems: 'center'}}>
@@ -61,7 +66,7 @@ const HowItWorks = () => {
           </Text>
         </View>
       </SafeAreaView>
-    </>
+    </ScrollView>
   );
 };
 
