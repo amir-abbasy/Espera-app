@@ -89,6 +89,7 @@ export default function Card(props) {
                 props.item.con_thumbnails,
             }}
             style={{width: 200, height: 100}}
+            resizeMode="contain"
           />
         </View>
 
@@ -99,6 +100,7 @@ export default function Card(props) {
               uri: default_url + '/images/products/' + props.item.pr_thumbnails,
             }}
             style={{width: 80, height: 100}}
+            resizeMode="contain"
           />
           {/* <Currency value={props.item.pr_price} prefix=" Only" /> */}
         </View>

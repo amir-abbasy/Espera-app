@@ -9,11 +9,14 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
+  Linking,
 } from 'react-native';
 import service from '../../global/service';
 import {default_url, colors, fonts} from '../../global/constanants';
 import {storeData} from '../../global/util';
 import {useNavigation} from '@react-navigation/native';
+import TandC from '../TandC';
+import {Modal} from '../../components';
 
 export default function Register({navigation}) {
   const [refId, setRefId] = useState({
@@ -28,6 +31,7 @@ export default function Register({navigation}) {
   const [phone, setPhone] = useState('');
   const [err, seterr] = useState('');
   const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(true);
 
   const nav = useNavigation();
   console.log(refId);
@@ -234,6 +238,38 @@ export default function Register({navigation}) {
         onPress={() => nav.navigate('Login')}>
         <Text style={styles.forgot_button}>Already have an account?</Text>
       </TouchableOpacity>
+
+      {/* TERMS & CONDITIONS */}
+      <Modal
+        modalVisible={modalVisible}
+        setModalVisible={() => nav.navigate('Login')}
+        footer={
+          <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+            <TouchableOpacity
+              style={styles.buttonModal}
+              onPress={async () => {
+                await Linking.openURL(
+                  'https://doc-hosting.flycricket.io/espera-terms-of-use/332b0563-2bed-4793-a08d-3c3e4ebcc21e/terms',
+                );
+              }}>
+              <Text style={{color: 'blue'}}>Download</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonModal}
+              onPress={() => nav.navigate('Login')}>
+              <Text style={{color: 'blue'}}>Decline</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(false);
+              }}
+              style={[styles.buttonModal, {backgroundColor: 'blue'}]}>
+              <Text style={{color: '#fff'}}>Accept</Text>
+            </TouchableOpacity>
+          </View>
+        }>
+        <TandC />
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -280,5 +316,15 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: '#fff',
+  },
+  buttonModal: {
+    width: '30%',
+    borderRadius: 25,
+    borderColor: 'blue',
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 20,
+    padding: 10,
   },
 });
