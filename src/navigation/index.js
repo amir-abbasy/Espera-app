@@ -2,7 +2,7 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import Home from '../screens/Home';
@@ -20,9 +20,14 @@ import HowItWorks from '../screens/HowItWorks';
 import TandC from '../screens/TandC';
 // Auth
 import Login from '../screens/auth/Login';
-import {StatusBar} from 'react-native';
+import {StatusBar, Image, View} from 'react-native';
 
 const StackNavation = createNativeStackNavigator();
+
+const cart = require('../../assets/icons/cart.png');
+const coup = require('../../assets/icons/coup.png');
+const home = require('../../assets/icons/home.png');
+const wishlist = require('../../assets/icons/wishlist.png');
 
 export default function StackNavationScreens() {
   return (
@@ -74,11 +79,21 @@ function App() {
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({focused, color, size}) => (
-            <Ionicons
-              name={focused ? 'ios-home' : 'ios-home-outline'}
-              color={color}
-              size={size}
-            />
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Image
+                source={home}
+                resizeMode="contain"
+                style={{
+                  width: 22,
+                  height: 22,
+                  tintColor: focused ? 'blue' : 'gray',
+                }}
+              />
+            </View>
           ),
         }}
       />
@@ -88,11 +103,21 @@ function App() {
         options={{
           tabBarLabel: 'Wishlist',
           tabBarIcon: ({focused, color, size}) => (
-            <AntDesign
-              name={focused ? 'heart' : 'hearto'}
-              color={color}
-              size={size}
-            />
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Image
+                source={wishlist}
+                resizeMode="contain"
+                style={{
+                  width: 22,
+                  height: 22,
+                  tintColor: focused ? 'blue' : 'gray',
+                }}
+              />
+            </View>
           ),
         }}
       />
@@ -102,11 +127,21 @@ function App() {
         options={{
           tabBarLabel: 'Coupens',
           tabBarIcon: ({focused, color, size}) => (
-            <Ionicons
-              name={focused ? 'ios-card' : 'card-outline'}
-              color={color}
-              size={size}
-            />
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Image
+                source={coup}
+                resizeMode="contain"
+                style={{
+                  width: 22,
+                  height: 22,
+                  tintColor: focused ? 'blue' : 'gray',
+                }}
+              />
+            </View>
           ),
         }}
       />
@@ -116,11 +151,21 @@ function App() {
         options={{
           tabBarLabel: 'My Cart',
           tabBarIcon: ({focused, color, size}) => (
-            <Ionicons
-              name={focused ? 'cart' : 'cart-outline'}
-              color={color}
-              size={size}
-            />
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Image
+                source={cart}
+                resizeMode="contain"
+                style={{
+                  width: 22,
+                  height: 22,
+                  tintColor: focused ? 'blue' : 'gray',
+                }}
+              />
+            </View>
           ),
         }}
       />

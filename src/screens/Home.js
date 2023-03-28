@@ -16,7 +16,7 @@ import {
   Header,
   Carousel,
   Currency,
-  SkeltonLoading
+  SkeltonLoading,
 } from '../components';
 
 import service from '../global/service';
@@ -70,10 +70,10 @@ export default function Home() {
 
   return (
     <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>
-      <Header homeHeader={true} />
+      <Header homeHeader={true} sectionHome={true} />
 
       {!loading ? (
-        <ScrollView style={styles.root}  showsVerticalScrollIndicator={false}>
+        <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
           <Carousel data={curosal} />
 
           {/* 
@@ -130,7 +130,7 @@ export default function Home() {
         /> */}
         </ScrollView>
       ) : (
-        <SkeltonLoading/>
+        <SkeltonLoading />
       )}
     </SafeAreaView>
   );

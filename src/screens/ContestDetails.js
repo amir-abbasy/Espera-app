@@ -17,6 +17,8 @@ import service from '../global/service';
 import {getStore} from '../global/util';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
+const heart = require('../../assets/icons/heart.png');
+
 export default function ContestDetails(props) {
   console.log('props', props.route.params.con_id);
   const [showReward, setShowReward] = useState(false);
@@ -46,8 +48,6 @@ export default function ContestDetails(props) {
     );
   };
 
-
-
   const _addToFav = async () => {
     var user_id = JSON.parse(await getStore('@user')).userId;
     service.post(
@@ -55,13 +55,12 @@ export default function ContestDetails(props) {
       {user_id, con_id},
       (err, res) => {
         // console.log('----------------', err, res);
-          setIsFav(true);
+        setIsFav(true);
       },
     );
   };
 
   // console.log("contest", contest);
-
 
   return (
     <>
@@ -76,19 +75,46 @@ export default function ContestDetails(props) {
                 alignItems: 'center',
               }}>
               <Progress
-                value={(contest.con_spots * 100 / contest.con_total_spots)}
+                value={(contest.con_spots * 100) / contest.con_total_spots}
                 data={{
                   con_total_spots: contest.con_total_spots,
                   con_spots: contest.con_spots,
                 }}
               />
-              <AntDesign
+              <TouchableOpacity
+                onPress={() =>
+                  !isFav
+                    ? _addToFav()
+                    : Alert.alert('Remove from wishlist page')
+                }>
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Image
+                    source={heart}
+                    resizeMode="contain"
+                    style={{
+                      width: 22,
+                      height: 22,
+                      tintColor: isFav ? 'red' : '#444444',
+                    }}
+                  />
+                </View>
+              </TouchableOpacity>
+
+              {/* <AntDesign
                 name={isFav ? 'heart' : 'hearto'}
                 color={isFav ? 'red' : '#444444'}
                 size={20}
                 style={{marginLeft: 10}}
-                onPress={() => !isFav ? _addToFav() : Alert.alert('Remove from wishlist page')}
-              />
+                onPress={() =>
+                  !isFav
+                    ? _addToFav()
+                    : Alert.alert('Remove from wishlist page')
+                }
+              /> */}
             </View>
 
             <View>
@@ -105,8 +131,6 @@ export default function ContestDetails(props) {
                 resizeMode="contain"
               />
             </View>
-
-           
 
             <View
               style={{
@@ -142,7 +166,8 @@ export default function ContestDetails(props) {
             </View>
 
             <Text style={{...fonts.reg_font, fontSize: 11}}>
-            Max draw date: {new Date(contest?.con_enddate).toLocaleDateString()}
+              Max draw date:{' '}
+              {new Date(contest?.con_enddate).toLocaleDateString()}
             </Text>
 
             <Text style={styles.name}>

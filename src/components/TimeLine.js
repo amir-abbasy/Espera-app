@@ -1,6 +1,7 @@
 import {View, Text, Image, FlatList, TouchableOpacity} from 'react-native';
 import React from 'react';
 import IconFA from 'react-native-vector-icons/FontAwesome';
+const user = require('../../assets/icons/user.png');
 
 const data_ = [
   {
@@ -55,13 +56,24 @@ const Level = props => {
         {props.item.prize}
       </Text>
       {props.item.status == 'current' ? (
-        <IconFA
-          onPress={() => nav.navigate('Profile')}
-          name="user"
-          color="#444444"
-          size={25}
-          style={{marginTop: 5}}
-        />
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Image
+            source={user}
+            resizeMode="contain"
+            style={{
+              width: 25,
+              height: 25,
+              marginTop: 10,
+              // tintColor: focused
+              //   ? MyColors.GRADIENT_ONE
+              //   : MyColors.LABEL_COLOR,
+            }}
+          />
+        </View>
       ) : (
         <Image
           source={require('../assets/win.png')}

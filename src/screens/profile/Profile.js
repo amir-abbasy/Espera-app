@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -17,6 +18,9 @@ import {TimeLine, Header} from '../../components';
 import service from '../../global/service';
 import {colors, default_url, fonts} from '../../global/constanants';
 import {getStore, storeRemoveData} from '../../global/util';
+
+const user = require('../../../assets/icons/user.png');
+const arrow = require('../../../assets/icons/arfwd.png');
 
 const settings_list = [
   {name: 'Personal Details', screen: 'Details'},
@@ -66,12 +70,24 @@ const ListItem = props => {
         }}>
         {props.item.name}
       </Text>
-      <MaterialIcons
-        name="arrow-forward-ios"
-        color="#44444470"
-        size={20}
-        style={{marginTop: 5}}
-      />
+
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Image
+          source={arrow}
+          resizeMode="contain"
+          style={{
+            width: 20,
+            height: 20,
+            // tintColor: focused
+            //   ? MyColors.GRADIENT_ONE
+            //   : MyColors.LABEL_COLOR,
+          }}
+        />
+      </View>
     </TouchableOpacity>
   );
 };
@@ -97,13 +113,31 @@ export default function Profile() {
       {profile ? (
         <ScrollView style={styles.root}>
           <View style={{alignItems: 'center'}}>
-            <IconFA
-              onPress={() => nav.navigate('Profile')}
+            <TouchableOpacity onPress={() => nav.navigate('Profile')}>
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Image
+                  source={user}
+                  resizeMode="contain"
+                  style={{
+                    width: 50,
+                    height: 50,
+                    // tintColor: focused
+                    //   ? MyColors.GRADIENT_ONE
+                    //   : MyColors.LABEL_COLOR,
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+            {/* <IconFA
               name="user"
               color="#444444"
               size={50}
               style={{margin: 20}}
-            />
+            /> */}
             <Text style={styles.name}>{profile.fullname}</Text>
             <Text style={styles.email}>{profile.username}</Text>
           </View>
