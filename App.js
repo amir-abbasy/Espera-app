@@ -1,4 +1,10 @@
 import Root_Nav from './src/navigation';
-
-export default Root_Nav;
-
+import Provider from './src/store/Context';
+const App = () => {
+  return (
+    <Provider>
+      <Root_Nav />
+    </Provider>
+  );
+};
+export default App;

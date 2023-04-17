@@ -16,93 +16,114 @@ import Coupens from '../screens/Coupens';
 import Splash from '../screens/Splash';
 import Register from '../screens/auth/Register';
 import ForgotPassword from '../screens/auth/ForgotPassword';
-
+import HowItWorks from '../screens/HowItWorks';
+import TandC from '../screens/TandC';
 // Auth
 import Login from '../screens/auth/Login';
-import { StatusBar } from 'react-native';
+import {StatusBar} from 'react-native';
 
 const StackNavation = createNativeStackNavigator();
 
 export default function StackNavationScreens() {
   return (
-    <NavigationContainer >
-        <StatusBar
-        animated={true}
-        backgroundColor="#444"
-       />
-    <StackNavation.Navigator  initialRouteName='Splash'
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <StackNavation.Screen name="Splash" component={Splash} />
-      <StackNavation.Screen name="Main" component={App} />
-      <StackNavation.Screen name="Cart" component={Cart} />
-      <StackNavation.Screen name="Profile" component={Profile} />
-      <StackNavation.Screen name="Settings" component={Settings} />
-      <StackNavation.Screen name="Details" component={Details} />
-      <StackNavation.Screen name="WishList" component={WishList} />
-      
-      
-      <StackNavation.Screen name="ContestDetails" component={ContestDetails} />
-      <StackNavation.Screen name="Login" component={Login} />
-      <StackNavation.Screen name="Register" component={Register} />
-      <StackNavation.Screen name="ForgotPassword" component={ForgotPassword} />
+    <NavigationContainer>
+      <StatusBar animated={true} backgroundColor="#444" />
+      <StackNavation.Navigator
+        initialRouteName="Splash"
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <StackNavation.Screen name="Splash" component={Splash} />
+        <StackNavation.Screen name="Main" component={App} />
+        <StackNavation.Screen name="Cart" component={Cart} />
+        <StackNavation.Screen name="Profile" component={Profile} />
+        <StackNavation.Screen name="Settings" component={Settings} />
+        <StackNavation.Screen name="Details" component={Details} />
+        <StackNavation.Screen name="WishList" component={WishList} />
 
-    </StackNavation.Navigator>
+        <StackNavation.Screen
+          name="ContestDetails"
+          component={ContestDetails}
+        />
+        <StackNavation.Screen name="Login" component={Login} />
+        <StackNavation.Screen name="Register" component={Register} />
+        <StackNavation.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
+        />
+        <StackNavation.Screen name="HowItWorks" component={HowItWorks} />
+        <StackNavation.Screen name="TandC" component={TandC} />
+      </StackNavation.Navigator>
     </NavigationContainer>
   );
 }
 
 const BottomTab = createBottomTabNavigator();
 
- function App() {
+function App() {
   return (
-      <BottomTab.Navigator
-        screenOptions={{
-          headerShown: false,
-          tabBarActiveTintColor: '#444444',
-          tabBarInactiveTintColor: '#444',
-        }}>
-        <BottomTab.Screen
-          name="Home"
-          component={Home}
-          options={{
-            tabBarLabel: 'Home',
-            tabBarIcon: ({focused, color, size}) => (
-              <Ionicons name={focused ? "ios-home" : "ios-home-outline"} color={color} size={size} />
-            ),
-          }}
-        />
-        <BottomTab.Screen
-          name="Favourite"
-          component={WishList}
-          options={{
-            tabBarLabel: 'Wishlist',
-            tabBarIcon: ({focused, color, size}) => (
-              <AntDesign name={focused ? "heart" : "hearto"} color={color} size={size} />
-            ),
-          }}
-        />
-        <BottomTab.Screen
-          name="Coupen"
-          component={Coupens}
-          options={{
-            tabBarLabel: 'Coupens',
-            tabBarIcon: ({focused, color, size}) => (
-              <Ionicons name={focused ? "ios-card" : "card-outline"} color={color} size={size} />
-            ),
-          }}
-        />
-        <BottomTab.Screen
-          name="Cart"
-          component={Cart}
-          options={{
-            tabBarLabel: 'My Cart',
-            tabBarIcon: ({focused, color, size}) => (
-              <Ionicons name={focused ? "cart" : "cart-outline"} color={color} size={size} />
-            ),
-          }}
-        />
-      </BottomTab.Navigator>
+    <BottomTab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: '#444444',
+        tabBarInactiveTintColor: '#444',
+      }}>
+      <BottomTab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({focused, color, size}) => (
+            <Ionicons
+              name={focused ? 'ios-home' : 'ios-home-outline'}
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Favourite"
+        component={WishList}
+        options={{
+          tabBarLabel: 'Wishlist',
+          tabBarIcon: ({focused, color, size}) => (
+            <AntDesign
+              name={focused ? 'heart' : 'hearto'}
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Coupen"
+        component={Coupens}
+        options={{
+          tabBarLabel: 'Coupens',
+          tabBarIcon: ({focused, color, size}) => (
+            <Ionicons
+              name={focused ? 'ios-card' : 'card-outline'}
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Cart"
+        component={Cart}
+        options={{
+          tabBarLabel: 'My Cart',
+          tabBarIcon: ({focused, color, size}) => (
+            <Ionicons
+              name={focused ? 'cart' : 'cart-outline'}
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+    </BottomTab.Navigator>
   );
 }

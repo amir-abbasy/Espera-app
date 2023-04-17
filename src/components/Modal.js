@@ -15,15 +15,17 @@ const Modal_ = (props) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
+            {/* <Text style={styles.modalText}>Hello World!</Text> */}
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => props?.setModalVisible(false)}
             >
-              <Text style={styles.textStyle}>Close Modal</Text>
+              <Text style={styles.textStyle}>  Close              X  </Text>
             </Pressable>
            {props.children}
+          {props?.footer}
           </View>
+
         </View>
 
       </Modal>
@@ -54,7 +56,8 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
+    marginTop: 20
   },
   buttonOpen: {
     backgroundColor: "#F194FF",

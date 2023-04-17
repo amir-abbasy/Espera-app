@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useReducer, useContext} from 'react';
 import {
   View,
   Text,
@@ -17,12 +17,15 @@ import {TimeLine, Header} from '../../components';
 import service from '../../global/service';
 import {colors, default_url, fonts} from '../../global/constanants';
 import {getStore, storeRemoveData} from '../../global/util';
+import{ AppContext } from '../../store/Context';
 
 const settings_list = [
   {name: 'Personal Details', screen: 'Details'},
   {name: 'Wishlist', screen: 'WishList'},
   {name: 'Active Coupons', screen: 'Coupen'},
   {name: 'Settings', screen: 'Settings'},
+  {name: 'How It Works', screen: 'HowItWorks'},
+  {name: 'Terms & Conditions', screen: 'TandC'},
   {name: 'Logout', screen: 'Login'},
 ];
 
@@ -30,6 +33,7 @@ const settings_list = [
 // var user_id = getStore('@user')
 const ListItem = props => {
   const nav = useNavigation();
+
 
 
   function logout() {
@@ -53,13 +57,14 @@ const ListItem = props => {
         paddingVertical: 10,
         marginHorizontal: 10,
         marginBottom: 10,
-        backgroundColor: '#0f0fff15',
+        borderBottomWidth:2,
+        backgroundColor: '#44444410',
         //   Shadow
         // elevation: 10,
         // shadowOpacity: 1,
         // shadowColor: '#444444',
       }}>
-      <Text style={{...fonts.reg_font}}>{props.item.name}</Text>
+      <Text style={{...fonts.reg_font, color :   props.item.name == 'Logout' ? 'tomato': '#444'}}>{props.item.name}</Text>
       <MaterialIcons
         name="arrow-forward-ios"
         color="#44444470"
@@ -74,12 +79,15 @@ export default function Profile() {
   const [profile, setProfile] = useState();
   async function getProfile() {
     var user = JSON.parse(await getStore('@user')).user;
-    // console.log("....user....-....", user);
+    console.log("....user....-....", user);
     service.get(default_url + '/user/getUser/username/' + user, (err, res) => {
-      // console.log('-----', res, err);
+      console.log('-----', res, err);
       setProfile(res[0]);
     });
   }
+
+  const store = useContext(AppContext)
+  console.log("==============>", store);
 
   useEffect(() => {
     getProfile();
@@ -103,7 +111,7 @@ export default function Profile() {
           </View>
 
           {/* Time Line */}
-          <TimeLine />
+          {/* <TimeLine /> */}
 
           <FlatList
             data={settings_list}

@@ -80,22 +80,21 @@ export default function Cart() {
   const [address, setAddress] = useState();
   const [showCard, setShowCard] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [delivary, setDelivary] = useState(0);
   const isFocused = useIsFocused();
 
   useEffect(() => {
     getCartItems();
   }, [isFocused]); // cartItems
 
-  // useEffect(() => {
-  //   checkAddress();
-  // }, [isDonateEnabled]);
-
   useEffect(() => {
     checkAddress();
   }, []);
 
+
+
   const getCartItems = async () => {
-    setLoading(true)
+    setLoading(true);
     var user = JSON.parse(await getStore('@user')).userId;
     service.get(
       default_url + `/contest/getMyOrders/${user}/oncart`,
@@ -106,7 +105,7 @@ export default function Cart() {
           .map(_ => parseInt(_.pr_price) * parseInt(_.quantity))
           .reduce((t, n) => n + t, 0);
         setTotalPrice(total);
-        setLoading(false)
+        setLoading(false);
       },
     );
   };
@@ -114,7 +113,7 @@ export default function Cart() {
   const checkAddress = async () => {
     var userId = JSON.parse(await getStore('@user')).userId;
     service.get(default_url + `/user/getMyAddress/${userId}`, (err, res) => {
-      // console.log('-----', res, err);
+      // console.log('--getMyAddress---', res, err);
       if (res[0]['user_address'] == null || res[0]['user_address'] == '') {
         setHasAddress(false);
       } else {
@@ -186,10 +185,13 @@ export default function Cart() {
               />
             ))}
           </ScrollView>
-        ) :  loading ? <ActivityIndicator color={colors.primary} /> : <Text style={{color:"#444444", textAlign: "center"}}>No Items</Text>}
+        ) : loading ? (
+          <ActivityIndicator color={colors.primary} />
+        ) : (
+          <Text style={{color: '#444444', textAlign: 'center'}}>No Items</Text>
+        )}
       </SafeAreaView>
 
-      
       <View style={styles.payNowContainar}>
         <Text style={{color: '#444444', ...fonts.reg_font}}>
           Inclusive of VAT
@@ -201,15 +203,37 @@ export default function Cart() {
           {totalPrice ? <Currency value={totalPrice} /> : null}
         </View>
 
+        <View style={{marginVertical: 20}}>
+          <Text>Delivary option (Charge : $5)</Text>
+          <View style={{flexDirection: 'row'}}>
+            <Text
+            onPress={()=>setDelivary(0)}
+              style={[
+                styles.delivary,
+                delivary == 0 ?  {color: '#fff', backgroundColor: '#444'}  : null,
+              ]}>
+              Outlet collection
+            </Text>
+            <Text
+            onPress={()=>setDelivary(1)}
+              style={[
+                styles.delivary,
+                delivary == 1 ? {color: '#fff', backgroundColor: '#444'} : null,
+              ]}>
+              Home Delivary
+            </Text>
+          </View>
+        </View>
+
         {/* PAYMENT CARD */}
         {showCard && cartItems ? (
           <Pay
             buttonStyle={styles.button}
-            onComplete={()=> {
-              setCartItems()
-              setShowCard(false)
+            onComplete={() => {
+              setCartItems();
+              setShowCard(false);
             }}
-            onCancel={()=> setShowCard(false)}
+            onCancel={() => setShowCard(false)}
             onError={null}
             paymentDetails={{
               ids: {
@@ -217,15 +241,26 @@ export default function Cart() {
                 contest_ids: cartItems.map(_ => _.con_id),
               },
               amount: cartItems
-              .map(_ => parseInt(_.pr_price) * parseInt(_.quantity))
-              .reduce((t, n) => n + t, 0)
+                .map(_ => parseInt(_.pr_price) * parseInt(_.quantity))
+                .reduce((t, n) => n + t, 0),
             }}
           />
         ) : (
           <TouchableOpacity
             style={styles.button}
             // onPress={() =>hasAddress ? _makePayment({totalPrice}, _submit) : setModalVisible(true)}>
-            onPress={() => cartItems.length > 0 ? setShowCard(true): Alert.alert('no items')} >
+            onPress={() =>{
+              if(cartItems.length > 0) {
+                if(!hasAddress && delivary == 1){
+                // Alert.alert('add address')
+                setModalVisible(true)
+                }
+                else{setShowCard(true)}
+              } else{
+                Alert.alert('no items')
+              }
+            }
+            }>
             {/* onPress={() => _makePayment({totalPrice})}> */}
             <Text
               style={{color: '#fff', fontWeight: '900', textAlign: 'center'}}>
@@ -235,11 +270,13 @@ export default function Cart() {
         )}
       </View>
       {/* Address add Modal */}
-      {modalVisible && isDonateEnabled && (
+      {/* {modalVisible && isDonateEnabled && ( */}
+      {modalVisible && (
         <Modal
-          modalVisible={modalVisible && isDonateEnabled}
+          modalVisible={modalVisible}
           setModalVisible={() => setModalVisible(!modalVisible)}>
           <View style={{padding: 22}}>
+            <Text>Your address is required for home delivery and we consume delivery charge </Text>
             <TextInput
               placeholder="Enter address"
               placeholderTextColor={'#000'}
@@ -251,7 +288,7 @@ export default function Cart() {
                 margin: 10,
                 padding: 10,
                 fontSize: 15,
-                width: '90%',
+                textAlignVertical:  'top' 
               }}
               numberOfLines={5}
             />
@@ -297,5 +334,15 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     backgroundColor: '#ffffff',
+  },
+  delivary: {
+    color: '#444444',
+    fontWeight: 'bold',
+    marginTop: 5,
+    marginRight: 5,
+    borderColor: '#444444',
+    borderWidth: 2,
+    padding: 5,
+    paddingHorizontal: 20,
   },
 });

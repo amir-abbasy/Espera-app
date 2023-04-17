@@ -22,6 +22,7 @@ import {
 import service from '../global/service';
 import {default_url} from '../global/constanants';
 import {getStore} from '../global/util';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function Home() {
   const [contests, setContests] = useState();
@@ -34,39 +35,44 @@ export default function Home() {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
+  const isFocused = useIsFocused()
+
   async function getUserName() {
     var user = await getStore('@user');
     setUser(JSON.parse(user).userId);
   }
-
   useEffect(() => {
     getUserName();
 
-    service.get(default_url + '/contest/getContestsActive', (err, res) => {
-      // console.log('-----', res, err);
-      setContests(res);
-    });
-
-    service.get(default_url + '/contest/getContestsSoldout', (err, res) => {
-      // console.log('-----', res, err);
-      setSoldOuts(res);
-    });
-
-    service.get(default_url + '/contest/getHistory', (err, res) => {
-      // console.log('-----', res, err);
-      setHistory(res);
-    });
-
-    service.get(default_url + '/data/getEndingSpots', (err, res) => {
-      // console.log('-----', res, err);
-      setEndingSpots(res);
-    });
     service.get(default_url + '/data/getCovers', (err, res) => {
       // console.log('-----', res, err);
       setCurosal(res);
       setLoading(false);
     });
-  }, []);
+  })
+
+  useEffect(() => {
+    service.get(default_url + '/contest/getContestsActive', (err, res) => {
+      // console.log('---getContestsActive--', res, err);
+      setContests(res);
+    });
+
+    service.get(default_url + '/contest/getContestsSoldout', (err, res) => {
+      // console.log('---getContestsSoldout--', res, err);
+      setSoldOuts(res);
+    });
+
+    service.get(default_url + '/contest/getHistory', (err, res) => {
+      console.log('--getHistory---', res, err);
+      setHistory(res);
+    });
+
+    service.get(default_url + '/data/getEndingSpots', (err, res) => {
+      // console.log('---getEndingSpots--', res, err);
+      setEndingSpots(res);
+    });
+   
+  }, [isFocused]);
 
   return (
     <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>

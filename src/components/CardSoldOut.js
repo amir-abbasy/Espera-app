@@ -3,7 +3,6 @@ import React from 'react';
 import { default_url, fonts } from '../global/constanants';
 
 export default function CardSoldOut(props) {
-  console.log("test", props.item.con_enddate,'-');
   return (
     <View
       style={{

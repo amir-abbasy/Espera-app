@@ -22,8 +22,8 @@ export default function CardWinner(props) {
           alignItems: 'center',
           position: 'absolute',
           zIndex:1,
-          bottom: 20,
-          right: '25%'
+          top: 10,
+          right: '5%'
 }}>
         <Image
           source={require('../assets/win.png')}
@@ -44,14 +44,15 @@ export default function CardWinner(props) {
             alignItems: 'flex-start',
             marginTop: 10
           }}>
-        <Text style={{...fonts.bold_font}}>{props.item.username}</Text>
-        <Text style={{...fonts.reg_font, fontSize: 14}}>on winning  {props.item.con_win}</Text>
+        <Text style={{...fonts.bold_font, color: '#f5be14', fontSize: 20}}>Congratulations!</Text>
+        <Text style={{...fonts.bold_font}}>{props.item.fullname}</Text>
+        <Text style={{...fonts.bold_font, fontSize: 14}}>on winning  {props.item.con_win}</Text>
         <Text style={{...fonts.reg_font, fontSize: 12, color: '#444444'}}>Coupon no: {props.item.con_winnerCoupen}</Text>
-        <Text style={{...fonts.reg_font, fontSize: 10}}>{props.item.con_enddate}</Text>
+        <Text style={{...fonts.reg_font, fontSize: 10}}>{new Date(props.item.con_enddate).toLocaleDateString()}</Text>
           <Image
             // source={require('../assets/car.png')}
-            source={{ uri: default_url + '/images/products/' + props.item.con_thumbnails }}
-            style={{width: 200, height: 100}}
+            source={{ uri: default_url + '/images/contest_cover/' + props.item.con_thumbnails }}
+            style={{width: 200, height: 100, top: -10}}
           />
         </View>
 
@@ -63,8 +64,8 @@ export default function CardWinner(props) {
          borderBottomLeftRadius: 40,
          }}>
           <Image
-            source={require('../assets/product.png')}
-            // source={{ uri: default_url + '/images/products/' + props.item.con_thumbnails }}
+            // source={require('../assets/product.png')}
+            source={{ uri: default_url + '/images/products/' + props.item.con_thumbnails }}
             style={{width: 60, height: 70}}
           />
           <Image

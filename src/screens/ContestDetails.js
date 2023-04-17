@@ -162,7 +162,7 @@ export default function ContestDetails(props) {
           <ActivityIndicator loading color={colors.primary} />
         )}
       </SafeAreaView>
-      <View
+      {contest?.con_status != 'complete' && contest?.con_status != 'draw' ? <View
         style={{
           backgroundColor: '#444444',
           flexDirection: 'row',
@@ -201,7 +201,7 @@ export default function ContestDetails(props) {
           onPress={() => _addToCart()}>
           <Text style={{color: '#444444', fontWeight: '900'}}>ADD TO CART</Text>
         </TouchableOpacity>
-      </View>
+      </View> : <Text style={{color:'#f75423', backgroundColor: '#f7542330', padding: 20, fontSize: 16}}>Contest completed</Text>}
     </>
   );
 }

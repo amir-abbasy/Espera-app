@@ -5,14 +5,18 @@ import {
   Image,
   Dimensions,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 const { width, height } = Dimensions.get('screen');
 import { colors, default_url, fonts } from '../global/constanants'
+import { useNavigation } from '@react-navigation/native';
 
-const RenderItem = ({ item }) => {
+const RenderItem = ({ item, index }) => {
   const progress_bg_Colors = [colors.primary, '#221f4d'];
+  const nav = useNavigation();
+
   return (
     <LinearGradient
       colors={progress_bg_Colors}
@@ -32,7 +36,7 @@ const RenderItem = ({ item }) => {
         style={{ ...StyleSheet.absoluteFillObject, width: width, height: height / 2.5, zIndex: 0 }}
         resizeMode="contain"
       />
-      <View style={{ zIndex: 2 }}>
+      <TouchableOpacity style={{ zIndex: 2 }} onPress={() => nav.navigate('ContestDetails', { con_id: item.con_id })}>
         <Text style={{ ...fonts.bold_font, fontSize: 30, color: '#ff4788' }}>Win</Text>
         <Text style={{ ...fonts.bold_font, fontSize: 20, color: '#fff' }}>
           {item.con_win}
@@ -40,8 +44,7 @@ const RenderItem = ({ item }) => {
         <Text style={{...fonts.reg_font, fontSize: 12, color: '#fff' }} numberOfLines={3}>
           {item.con_discription}
         </Text>
-
-      </View>
+      </TouchableOpacity>
 
       <LinearGradient
         colors={['transparent', '#222']}

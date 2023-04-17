@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -11,11 +11,12 @@ import {
 } from 'react-native';
 import {Header} from '../../components';
 import service from '../../global/service';
-import currencies from '../../global/currencies.json';
+// import currencies from '../../global/currencies.json';
 import {getStore, storeData, storeRemoveData} from '../../global/util';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {default_url, fonts} from '../../global/constanants';
 import { useNavigation } from '@react-navigation/native';
+import { AppContext } from '../../store/Context';
 
 // https://free.currconv.com/api/v7/convert?q=USD_QAR&compact=ultra&apiKey=c51953d4f4608a064655
 
@@ -29,11 +30,13 @@ export default function Settings() {
   const [items, setItems] = useState();
   const [loading, setLoading] = useState(false);
   const nav = useNavigation()
+  const store = useContext(AppContext)
+  // console.log("=======currency=======>", store.currency);
 
   async function getProfile() {
-    var curr_ = Object.entries(currencies).map(__ => ({
-      label: __[0] + ' - ' + __[1].name,
-      value: {currency: __[0], value: __[1].price},
+    var curr_ = Object.entries(store.currency).map(__ => ({
+      label: __[1].symbol,
+      value: {currency: __[1].symbol, value: __[1].price},
     }));
     setItems(curr_);
 
