@@ -7,22 +7,26 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {CartItemCard, Header} from '../components';
 import service from '../global/service';
 import {getStore} from '../global/util';
 import {default_url} from '../global/constanants';
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
+import { AppContext } from '../store/Context';
 
 export default function Coupens() {
   const [myCoupens, setMyCoupens] = useState();
   const isFocused = useIsFocused();
+  const store = useContext(AppContext);
+  const nav = useNavigation();
 
   useEffect(() => {
     getCartItems();
   }, [isFocused]);
 
   const getCartItems = async () => {
+    if (!store.user) return;
     var user = JSON.parse(await getStore('@user')).userId;
     service.get(
       default_url + `/contest/getMyOrders/${user}/complete`,
@@ -33,6 +37,15 @@ export default function Coupens() {
       },
     );
   };
+
+  if (!store?.user) {
+    return (
+      <View>
+        <Header homeHeader={false} title="My Coupens" />
+        <Text style={{textAlign: 'center', padding: 40, color: '#0000ff'}} onPress={() => nav.navigate('Register')}>Create an account!</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView>

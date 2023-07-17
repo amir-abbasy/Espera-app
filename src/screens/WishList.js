@@ -17,7 +17,7 @@ import {colors, default_url, fonts} from '../global/constanants';
 import service from '../global/service';
 import axios from 'axios';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {AppContext} from '../store/Context';
 
 // {"id":1,"con_id":"con_d5eee96e237a","user_id":"usr_20e104abc603","username":"ammar","fullname":"ammar va","user_password":"123456","email":"ammar@gmail.com","profile_pic":null,"mobile":"65987452","user_address":"Al House ","total_spent":null,"isStaff":1,"referrelUserId":null,"product_id":"pr_fcec17b187bb","con_status":"draw","con_total_spots":"5","con_spots":"5","con_startdate":"2022-07-12T17:14:00.000Z","con_enddate":"2022-07-15T17:16:00.000Z","con_win":"2022 Tesla Model Y","con_discription":" The EV automaker’s latest model, a luxury compact SUV, is built with an elevated seating position and low dash giving its driver a commanding view of the road ahead. The interior of Model Y is simple and clean, with a 15-inch touch screen, immersive soun","con_thumbnails":"440-CR-00072.png","con_winner":null,"con_winnerCoupen":null}
@@ -25,6 +25,9 @@ import {AppContext} from '../store/Context';
 export default function WishList() {
   const [lists, setLists] = useState();
   const isFocused = useIsFocused();
+  const store = useContext(AppContext);
+  const nav = useNavigation();
+
 
   // const store = useContext(AppContext);
   // console.log('=------------------->', store);
@@ -34,6 +37,7 @@ export default function WishList() {
   }, [isFocused]);
 
   const _getData = async _ => {
+    if (!store.user) return;
     const user_ = await AsyncStorage.getItem('@user');
     const userId = JSON.parse(user_).userId;
     service.get(default_url + '/user/getWishLists/' + userId, (status, res) => {
@@ -114,6 +118,17 @@ export default function WishList() {
       </View>
     );
   };
+
+
+  if (!store?.user) {
+    return (
+      <View>
+        <Header homeHeader={false} title="My Wishlist" />
+        <Text style={{textAlign: 'center', padding: 40, color: '#0000ff'}} onPress={() => nav.navigate('Register')}>Create an account!</Text>
+      </View>
+    );
+  }
+
   return (
     <>
       <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>

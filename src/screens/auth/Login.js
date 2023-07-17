@@ -121,6 +121,12 @@ export default function Login({navigation}) {
         onPress={() => nav.navigate('Register')}>
         <Text style={styles.forgot_button}>Create an account</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={{opacity: .5}}
+        onPress={() => nav.navigate('Main')}>
+        <Text style={styles.forgot_button}>Skip now</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }

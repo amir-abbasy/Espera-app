@@ -1,11 +1,14 @@
 import {View, Text, StyleSheet, Image} from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {AppContext} from '../store/Context';
 
 export default function Header(props) {
   const nav = useNavigation();
+  const store = useContext(AppContext);
+
   return (
     <View
       style={{
@@ -51,7 +54,7 @@ export default function Header(props) {
             </Text>
           )}
         </View>
-        {!props?.canGoBack && (
+        {!props?.canGoBack && store?.user && (
           <IconFA
             onPress={() => nav.navigate('Profile')}
             name="user"

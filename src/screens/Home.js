@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -16,13 +16,14 @@ import {
   Header,
   Carousel,
   Currency,
-  SkeltonLoading
+  SkeltonLoading,
 } from '../components';
 
 import service from '../global/service';
 import {default_url} from '../global/constanants';
 import {getStore} from '../global/util';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
+import {AppContext} from '../store/Context';
 
 export default function Home() {
   const [contests, setContests] = useState();
@@ -35,21 +36,22 @@ export default function Home() {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
+  const store = useContext(AppContext);
 
   async function getUserName() {
     var user = await getStore('@user');
     setUser(JSON.parse(user).userId);
   }
   useEffect(() => {
-    getUserName();
+    store?.user && getUserName();
 
     service.get(default_url + '/data/getCovers', (err, res) => {
       // console.log('-----', res, err);
       setCurosal(res);
       setLoading(false);
     });
-  })
+  });
 
   useEffect(() => {
     service.get(default_url + '/contest/getContestsActive', (err, res) => {
@@ -71,15 +73,14 @@ export default function Home() {
       // console.log('---getEndingSpots--', res, err);
       setEndingSpots(res);
     });
-   
   }, [isFocused]);
 
   return (
     <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>
-      <Header homeHeader={true} />
+      <Header homeHeader={true} user={store?.user} />
 
       {!loading ? (
-        <ScrollView style={styles.root}  showsVerticalScrollIndicator={false}>
+        <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
           <Carousel data={curosal} />
 
           {/* 
@@ -136,7 +137,7 @@ export default function Home() {
         /> */}
         </ScrollView>
       ) : (
-        <SkeltonLoading/>
+        <SkeltonLoading />
       )}
     </SafeAreaView>
   );

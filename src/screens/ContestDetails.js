@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -16,11 +16,13 @@ import {default_url, fonts, colors} from '../global/constanants';
 import service from '../global/service';
 import {getStore} from '../global/util';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {AppContext} from '../store/Context';
 
 export default function ContestDetails(props) {
   console.log('props', props.route.params.con_id);
   const [showReward, setShowReward] = useState(false);
   const [isFav, setIsFav] = useState(false);
+  const store = useContext(AppContext);
 
   const [contest, setContest] = useState();
   const con_id = props.route.params.con_id;
@@ -46,22 +48,23 @@ export default function ContestDetails(props) {
     );
   };
 
-
-
   const _addToFav = async () => {
+    if (!store?.user) {
+      alert('To make adding to wishlist need signup');
+      return;
+    }
     var user_id = JSON.parse(await getStore('@user')).userId;
     service.post(
       default_url + `/user/addToWishList`,
       {user_id, con_id},
       (err, res) => {
         // console.log('----------------', err, res);
-          setIsFav(true);
+        setIsFav(true);
       },
     );
   };
 
   // console.log("contest", contest);
-
 
   return (
     <>
@@ -76,7 +79,7 @@ export default function ContestDetails(props) {
                 alignItems: 'center',
               }}>
               <Progress
-                value={(contest.con_spots * 100 / contest.con_total_spots)}
+                value={(contest.con_spots * 100) / contest.con_total_spots}
                 data={{
                   con_total_spots: contest.con_total_spots,
                   con_spots: contest.con_spots,
@@ -87,7 +90,11 @@ export default function ContestDetails(props) {
                 color={isFav ? 'red' : '#444444'}
                 size={20}
                 style={{marginLeft: 10}}
-                onPress={() => !isFav ? _addToFav() : Alert.alert('Remove from wishlist page')}
+                onPress={() =>
+                  !isFav
+                    ? _addToFav()
+                    : Alert.alert('Remove from wishlist page')
+                }
               />
             </View>
 
@@ -105,8 +112,6 @@ export default function ContestDetails(props) {
                 resizeMode="contain"
               />
             </View>
-
-           
 
             <View
               style={{
@@ -142,7 +147,8 @@ export default function ContestDetails(props) {
             </View>
 
             <Text style={{...fonts.reg_font, fontSize: 11}}>
-            Max draw date: {new Date(contest?.con_enddate).toLocaleDateString()}
+              Max draw date:{' '}
+              {new Date(contest?.con_enddate).toLocaleDateString()}
             </Text>
 
             <Text style={styles.name}>
@@ -162,46 +168,62 @@ export default function ContestDetails(props) {
           <ActivityIndicator loading color={colors.primary} />
         )}
       </SafeAreaView>
-      {contest?.con_status != 'complete' && contest?.con_status != 'draw' ? <View
-        style={{
-          backgroundColor: '#444444',
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
-          padding: 20,
-          borderTopLeftRadius: 25,
-          borderTopRightRadius: 25,
-          position: 'absolute',
-          bottom: 0,
-          right: 0,
-          left: 0,
-          alignItems: 'center',
-        }}>
-        <View style={{width: '60%'}}>
-          {contest && (
-            <>
-              <Text style={{color: '#fff'}}>Buy a {contest.pr_name}</Text>
-              <Currency
-                value={contest.pr_price}
-                size="md"
-                style={{color: 'white'}}
-              />
-            </>
-          )}
-          <Text style={{color: '#fff'}}>Inclusive of VAT</Text>
-        </View>
-        <TouchableOpacity
+      {contest?.con_status != 'complete' && contest?.con_status != 'draw' ? (
+        <View
           style={{
-            backgroundColor: '#fff',
-            borderRadius: 25,
-            height: 45,
-            paddingHorizontal: 20,
-            textAlign: 'center',
-            justifyContent: 'center',
-          }}
-          onPress={() => _addToCart()}>
-          <Text style={{color: '#444444', fontWeight: '900'}}>ADD TO CART</Text>
-        </TouchableOpacity>
-      </View> : <Text style={{color:'#f75423', backgroundColor: '#f7542330', padding: 20, fontSize: 16}}>Contest completed</Text>}
+            backgroundColor: '#444444',
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            padding: 20,
+            borderTopLeftRadius: 25,
+            borderTopRightRadius: 25,
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            left: 0,
+            alignItems: 'center',
+          }}>
+          <View style={{width: '60%'}}>
+            {contest && (
+              <>
+                <Text style={{color: '#fff'}}>Buy a {contest.pr_name}</Text>
+                <Currency
+                  value={contest.pr_price}
+                  size="md"
+                  style={{color: 'white'}}
+                />
+              </>
+            )}
+            <Text style={{color: '#fff'}}>Inclusive of VAT</Text>
+          </View>
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#fff',
+              borderRadius: 25,
+              height: 45,
+              paddingHorizontal: 20,
+              textAlign: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={() =>
+              store?.user ? _addToCart() : props.navigation.navigate('Register')
+            }>
+            <Text style={{color: '#444444', fontWeight: '900'}}>
+              ADD TO CART
+            </Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <Text
+          style={{
+            color: '#f75423',
+            backgroundColor: '#f7542330',
+            padding: 20,
+            fontSize: 16,
+          }}>
+          Contest completed
+        </Text>
+      )}
     </>
   );
 }

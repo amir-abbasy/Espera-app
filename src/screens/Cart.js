@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -17,8 +17,9 @@ import {CartItemCard, Currency, Header, Modal, Pay} from '../components';
 import service from '../global/service';
 import {default_url, fonts, colors} from '../global/constanants';
 import {getStore} from '../global/util';
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {razorpay_key} from '../global/constanants';
+import {AppContext} from '../store/Context';
 
 // stripe key
 // public
@@ -82,7 +83,9 @@ export default function Cart() {
   const [loading, setLoading] = useState(false);
   const [delivary, setDelivary] = useState(0);
   const isFocused = useIsFocused();
-
+  const store = useContext(AppContext);
+  const nav = useNavigation();
+  
   useEffect(() => {
     getCartItems();
   }, [isFocused]); // cartItems
@@ -91,9 +94,8 @@ export default function Cart() {
     checkAddress();
   }, []);
 
-
-
   const getCartItems = async () => {
+    if (!store.user) return;
     setLoading(true);
     var user = JSON.parse(await getStore('@user')).userId;
     service.get(
@@ -111,6 +113,7 @@ export default function Cart() {
   };
 
   const checkAddress = async () => {
+    if (!store.user) return;
     var userId = JSON.parse(await getStore('@user')).userId;
     service.get(default_url + `/user/getMyAddress/${userId}`, (err, res) => {
       // console.log('--getMyAddress---', res, err);
@@ -123,6 +126,7 @@ export default function Cart() {
   };
 
   const updateAddress = async () => {
+    if (!store.user) return;
     var user_id = JSON.parse(await getStore('@user')).userId;
 
     const body = {
@@ -166,6 +170,16 @@ export default function Cart() {
     // console.log(cartItems.map(_ => _.con_id));
   }
 
+
+  if (!store?.user) {
+    return (
+      <View>
+        <Header homeHeader={false} title="My Cart" />
+        <Text style={{textAlign: 'center', padding: 40, color: '#0000ff'}} onPress={() => nav.navigate('Register')}>Create an account!</Text>
+      </View>
+    );
+  }
+  
   return (
     <>
       <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>
@@ -207,15 +221,15 @@ export default function Cart() {
           <Text>Delivary option (Charge : $5)</Text>
           <View style={{flexDirection: 'row'}}>
             <Text
-            onPress={()=>setDelivary(0)}
+              onPress={() => setDelivary(0)}
               style={[
                 styles.delivary,
-                delivary == 0 ?  {color: '#fff', backgroundColor: '#444'}  : null,
+                delivary == 0 ? {color: '#fff', backgroundColor: '#444'} : null,
               ]}>
               Outlet collection
             </Text>
             <Text
-            onPress={()=>setDelivary(1)}
+              onPress={() => setDelivary(1)}
               style={[
                 styles.delivary,
                 delivary == 1 ? {color: '#fff', backgroundColor: '#444'} : null,
@@ -249,18 +263,18 @@ export default function Cart() {
           <TouchableOpacity
             style={styles.button}
             // onPress={() =>hasAddress ? _makePayment({totalPrice}, _submit) : setModalVisible(true)}>
-            onPress={() =>{
-              if(cartItems.length > 0) {
-                if(!hasAddress && delivary == 1){
-                // Alert.alert('add address')
-                setModalVisible(true)
+            onPress={() => {
+              if (cartItems.length > 0) {
+                if (!hasAddress && delivary == 1) {
+                  // Alert.alert('add address')
+                  setModalVisible(true);
+                } else {
+                  setShowCard(true);
                 }
-                else{setShowCard(true)}
-              } else{
-                Alert.alert('no items')
+              } else {
+                Alert.alert('no items');
               }
-            }
-            }>
+            }}>
             {/* onPress={() => _makePayment({totalPrice})}> */}
             <Text
               style={{color: '#fff', fontWeight: '900', textAlign: 'center'}}>
@@ -276,7 +290,10 @@ export default function Cart() {
           modalVisible={modalVisible}
           setModalVisible={() => setModalVisible(!modalVisible)}>
           <View style={{padding: 22}}>
-            <Text>Your address is required for home delivery and we consume delivery charge </Text>
+            <Text>
+              Your address is required for home delivery and we consume delivery
+              charge{' '}
+            </Text>
             <TextInput
               placeholder="Enter address"
               placeholderTextColor={'#000'}
@@ -288,7 +305,7 @@ export default function Cart() {
                 margin: 10,
                 padding: 10,
                 fontSize: 15,
-                textAlignVertical:  'top' 
+                textAlignVertical: 'top',
               }}
               numberOfLines={5}
             />

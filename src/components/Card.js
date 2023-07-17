@@ -41,6 +41,7 @@ export default function Card(props) {
   var width_percent = (props.item.con_spots * 100) / props.item.con_total_spots;
 
   const _addToCart = () => {
+    if(!props?.user)return
     service.get(
       default_url +
         `/contest/orderSpot/${props?.user}/${props.item.con_id}/${props.item.product_id}`,
@@ -132,7 +133,7 @@ export default function Card(props) {
 
           <TouchableOpacity
             // onPress={() => nav.navigate('Cart')}
-            onPress={() => (isAddedToCart ? null : _addToCart())}
+            onPress={props?.user ? () => (isAddedToCart ? null : _addToCart()) : ()=> alert('To make purchase need signup!')}
             disabled={isAddedToCart}
             style={{
               backgroundColor: isAddedToCart ? '#fff' : '#444444',
